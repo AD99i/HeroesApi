@@ -1,0 +1,23 @@
+<nav class="bg-gray-800 text-white shadow-md">
+  <ul class="flex justify-center space-x-8 py-4">
+    <li>
+      <a
+        routerLink="/home"
+        routerLinkActive="text-yellow-400 border-b-2 border-yellow-400"
+        [routerLinkActiveOptions]="{ exact: true }"
+        class="hover:text-yellow-300 transition duration-300 pb-1"
+      >
+        Home
+      </a>
+    </li>
+    <li>
+      <a
+        routerLink="/heroes"
+        routerLinkActive="text-yellow-400 border-b-2 border-yellow-400"
+        class="hover:text-yellow-300 transition duration-300 pb-1"
+      >
+        Heroes
+      </a>
+    </li>
+  </ul>
+</nav>
