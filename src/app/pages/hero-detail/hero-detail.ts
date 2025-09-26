@@ -1,41 +1,48 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { SuperheroApi } from '../../services/superhero-api';
 import { Superhero } from '../../models/superhero';
 
 @Component({
-  selector: 'app-heroes',
+  selector: 'app-hero-detail',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './heroes.html',
-  styleUrl: './heroes.css'
+  templateUrl: './hero-detail.html',
+  styleUrl: './hero-detail.css'
 })
-export class Heroes implements OnInit {
+export class HeroDetail implements OnInit {
+  private route = inject(ActivatedRoute);
   private superheroApi = inject(SuperheroApi);
 
-  heroes = signal<Superhero[]>([]);
+  hero = signal<Superhero | null>(null);
   loading = signal<boolean>(true);
-  placeholders = Array(30).fill(0);
 
   ngOnInit() {
-    this.loadHeroes();
+    const heroId = this.route.snapshot.params['id'];
+    if (heroId) {
+      this.loadHero(+heroId);
+    }
   }
 
-  private loadHeroes() {
-    this.superheroApi.getHeroes().subscribe({
-      next: (heroes) => {
-        this.heroes.set(heroes);
+  private loadHero(id: number) {
+    this.superheroApi.getHero(id).subscribe({
+      next: (hero) => {
+        this.hero.set(hero);
         this.loading.set(false);
       },
       error: (error) => {
-        console.error('Erreur lors du chargement des héros:', error);
+        console.error('Erreur lors du chargement du héros:', error);
+        this.hero.set(null);
         this.loading.set(false);
       }
     });
   }
 
-  getHeroPowerLevel(hero: Superhero): number {
+  getOverallRating(): number {
+    const hero = this.hero();
+    if (!hero) return 0;
+
     const stats = hero.powerstats;
     const total = stats.intelligence + stats.strength + stats.speed +
                   stats.durability + stats.power + stats.combat;

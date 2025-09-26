@@ -1,16 +1,164 @@
-<div class="max-w-xl mx-auto mt-8 px-4">
-  <h2 class="text-2xl font-bold text-gray-800 mb-4">Liste des héros</h2>
+<main class="min-h-screen bg-base-100">
+  <div class="container-custom py-8">
+    <!-- Header Section -->
+    <div class="text-center mb-12">
+      <h1 class="text-5xl font-bold mb-6 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+        Super Héros
+      </h1>
+      <p class="text-xl text-base-content/70 max-w-3xl mx-auto leading-relaxed">
+        Découvrez les statistiques, biographies et pouvoirs de vos super-héros préférés
+      </p>
+    </div>
 
-  <ul class="space-y-2">
-    @for (hero of heroes; track hero.id) {
-      <li>
-        <a
-          routerLink="/hero/{{hero.id}}"
-          class="block px-4 py-2 rounded-md bg-gray-100 hover:bg-indigo-100 hover:text-indigo-700 transition duration-300 shadow-sm"
-        >
-          {{ hero.name }}
-        </a>
-      </li>
+    @defer (when !loading()) {
+      @if(heroes().length > 0){
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+          @for (hero of heroes().slice(0, 30); track hero.id) {
+            <div class="card bg-base-100 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer border border-base-300 group"
+                 [routerLink]="['/heroes', hero.id]">
+              <figure class="relative overflow-hidden">
+                <img
+                  [src]="hero.images.sm"
+                  [alt]="hero.name"
+                  class="w-full h-72 object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                <!-- Alignment Badge -->
+                <div class="absolute top-3 right-3">
+                  <div
+                    class="badge badge-sm font-bold text-white shadow-lg"
+                    [ngClass]="{
+                      'badge-success': hero.biography.alignment === 'good',
+                      'badge-error': hero.biography.alignment === 'bad',
+                      'badge-warning': hero.biography.alignment === 'neutral'
+                    }"
+                  >
+                    {{ hero.biography.alignment === 'good' ? 'HÉROS' :
+                       hero.biography.alignment === 'bad' ? 'VILAIN' : 'NEUTRE' }}
+                  </div>
+                </div>
+
+                <!-- Power Level Indicator -->
+                <div class="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div class="bg-black/50 backdrop-blur-sm rounded-lg p-2">
+                    <div class="flex justify-between items-center mb-1">
+                      <span class="text-white text-xs font-medium">Puissance</span>
+                      <span class="text-white text-xs font-bold">{{ getHeroPowerLevel(hero) }}%</span>
+                    </div>
+                    <progress
+                      class="progress progress-primary w-full h-1"
+                      [value]="getHeroPowerLevel(hero)"
+                      max="100">
+                    </progress>
+                  </div>
+                </div>
+              </figure>
+
+              <div class="card-body p-4">
+                <h2 class="card-title text-lg mb-2 line-clamp-1" [title]="hero.name">
+                  {{ hero.name }}
+                </h2>
+
+                <div class="flex items-center justify-between mb-3">
+                  <div class="badge badge-primary badge-sm">{{ hero.biography.publisher }}</div>
+                  @if(hero.appearance.race) {
+                    <div class="badge badge-secondary badge-sm">{{ hero.appearance.race }}</div>
+                  }
+                </div>
+
+                <!-- Mini Stats -->
+                <div class="grid grid-cols-3 gap-2 mb-3">
+                  <div class="text-center">
+                    <div class="text-xs text-base-content/60">Force</div>
+                    <div class="font-bold text-sm text-error">{{ hero.powerstats.strength }}</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-xs text-base-content/60">Intel.</div>
+                    <div class="font-bold text-sm text-info">{{ hero.powerstats.intelligence }}</div>
+                  </div>
+                  <div class="text-center">
+                    <div class="text-xs text-base-content/60">Vitesse</div>
+                    <div class="font-bold text-sm text-warning">{{ hero.powerstats.speed }}</div>
+                  </div>
+                </div>
+
+                <div class="card-actions justify-end">
+                  <div class="btn btn-primary btn-sm group-hover:btn-accent transition-colors duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Voir détails
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- Load More Section -->
+        <div class="text-center mt-12">
+          <div class="bg-base-200 p-8 rounded-2xl">
+            <div class="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+              </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-2">Plus de héros bientôt !</h3>
+            <p class="text-base-content/60">
+              Nous affichons les 30 premiers héros. D'autres fonctionnalités arrivent bientôt.
+            </p>
+          </div>
+        </div>
+      } @else {
+        <!-- No Heroes -->
+        <div class="hero min-h-[60vh]">
+          <div class="hero-content text-center">
+            <div class="max-w-md">
+              <div class="w-32 h-32 mx-auto bg-error/10 rounded-full flex items-center justify-center mb-8">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-error" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.502 0L4.268 19c-.77.833.192 2.5 1.732 2.5z" />
+                </svg>
+              </div>
+              <h1 class="text-3xl font-bold mb-4">Aucun héros trouvé</h1>
+              <p class="text-base-content/60 mb-6">
+                Impossible de charger la liste des super-héros pour le moment.
+              </p>
+              <button onclick="location.reload()" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+                Réessayer
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+    } @placeholder {
+      <!-- Loading State -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+        @for (item of placeholders; track $index) {
+          <div class="card bg-base-200 animate-pulse">
+            <figure>
+              <div class="w-full h-72 bg-base-300 skeleton"></div>
+            </figure>
+            <div class="card-body p-4">
+              <div class="h-6 bg-base-300 rounded skeleton mb-2"></div>
+              <div class="flex gap-2 mb-3">
+                <div class="h-4 w-16 bg-base-300 rounded skeleton"></div>
+                <div class="h-4 w-12 bg-base-300 rounded skeleton"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-2 mb-3">
+                <div class="h-8 bg-base-300 rounded skeleton"></div>
+                <div class="h-8 bg-base-300 rounded skeleton"></div>
+                <div class="h-8 bg-base-300 rounded skeleton"></div>
+              </div>
+              <div class="h-8 w-24 bg-base-300 rounded skeleton ml-auto"></div>
+            </div>
+          </div>
+        }
+      </div>
     }
-  </ul>
-</div>
+  </div>
+</main>

@@ -1,0 +1,178 @@
+/* Progress bars animations */
+.progress-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+  border-radius: inherit;
+  animation: progress-shimmer 2s infinite;
+  transition: width 1s ease-out;
+}
+
+.progress-glow-primary {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-primary) / 0.6), transparent);
+}
+
+.progress-glow-secondary {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-secondary) / 0.6), transparent);
+}
+
+.progress-glow-accent {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-accent) / 0.6), transparent);
+}
+
+.progress-glow-info {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-info) / 0.6), transparent);
+}
+
+.progress-glow-success {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-success) / 0.6), transparent);
+}
+
+.progress-glow-warning {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-warning) / 0.6), transparent);
+}
+
+.progress-glow-error {
+  background: linear-gradient(90deg, transparent, hsl(var(--color-error) / 0.6), transparent);
+}
+
+@keyframes progress-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Stat container animations */
+.stat-container {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, hsl(var(--color-base-200) / 0.5), hsl(var(--color-base-300) / 0.3));
+}
+
+.stat-container:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Progress bars enhanced styling */
+.progress {
+  transition: all 0.8s ease-out;
+  border-radius: 1rem;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.progress::-webkit-progress-bar {
+  border-radius: 1rem;
+  background-color: hsl(var(--color-base-300));
+}
+
+.progress::-webkit-progress-value {
+  border-radius: 1rem;
+  transition: width 0.8s ease-out;
+}
+
+/* Radial progress enhancements */
+.radial-progress {
+  background: conic-gradient(from 0deg at 50% 50%,
+    hsl(var(--color-base-300)) 0deg,
+    hsl(var(--color-base-300)) calc(3.6deg * (100 - var(--value))),
+    hsl(var(--color-primary)) calc(3.6deg * (100 - var(--value))),
+    hsl(var(--color-primary)) 360deg);
+  box-shadow: 0 0 30px hsl(var(--color-primary) / 0.3);
+  animation: radial-pulse 3s ease-in-out infinite;
+}
+
+@keyframes radial-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px hsl(var(--color-primary) / 0.3);
+  }
+  50% {
+    box-shadow: 0 0 50px hsl(var(--color-primary) / 0.5);
+  }
+}
+
+/* Card animations */
+.card {
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+/* Badge animations */
+.badge {
+  transition: all 0.2s ease;
+}
+
+.badge:hover {
+  transform: scale(1.05);
+}
+
+/* Loading skeleton animations */
+.skeleton {
+  background: linear-gradient(90deg,
+    hsl(var(--color-base-300)) 25%,
+    hsl(var(--color-base-200)) 50%,
+    hsl(var(--color-base-300)) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Avatar enhancements */
+.avatar .indicator-item {
+  animation: badge-bounce 2s ease-in-out infinite;
+}
+
+@keyframes badge-bounce {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Hero image effects */
+.avatar img {
+  transition: transform 0.3s ease;
+}
+
+.avatar:hover img {
+  transform: scale(1.05);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .progress-container {
+    margin-bottom: 1rem;
+  }
+
+  .stat-container {
+    padding: 0.75rem;
+  }
+
+  .radial-progress {
+    --size: 8rem !important;
+  }
+}

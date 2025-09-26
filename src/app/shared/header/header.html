@@ -1,23 +1,46 @@
-<nav class="bg-gray-800 text-white shadow-md">
-  <ul class="flex justify-center space-x-8 py-4">
-    <li>
-      <a
-        routerLink="/home"
-        routerLinkActive="text-yellow-400 border-b-2 border-yellow-400"
-        [routerLinkActiveOptions]="{ exact: true }"
-        class="hover:text-yellow-300 transition duration-300 pb-1"
-      >
-        Home
+<header class="sticky top-0 z-50 bg-base-100/80 backdrop-blur-md border-b border-base-300">
+  <div class="navbar container-custom">
+    <div class="navbar-start">
+      <div class="dropdown lg:hidden">
+        <div tabindex="0" role="button" class="btn btn-ghost">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" />
+          </svg>
+        </div>
+        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+          <li><a routerLink="/home" class="hover:bg-primary/10">Accueil</a></li>
+          <li><a routerLink="/about" class="hover:bg-primary/10">À propos</a></li>
+          <li><a routerLink="/contact" class="hover:bg-primary/10">Contact</a></li>
+          <li><a routerLink="/heroes" class="hover:bg-primary/10">Héros</a></li>
+          <li><a routerLink="/products" class="hover:bg-primary/10">Produits</a></li>
+        </ul>
+      </div>
+      <a routerLink="/home" class="btn btn-ghost text-xl font-bold">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+        </svg>
+        Demo App
       </a>
-    </li>
-    <li>
-      <a
-        routerLink="/heroes"
-        routerLinkActive="text-yellow-400 border-b-2 border-yellow-400"
-        class="hover:text-yellow-300 transition duration-300 pb-1"
-      >
-        Heroes
-      </a>
-    </li>
-  </ul>
-</nav>
+    </div>
+
+    <div class="navbar-center hidden lg:flex">
+      <ul class="menu menu-horizontal px-1 space-x-2">
+        <li><a routerLink="/home" routerLinkActive="btn-primary" class="btn btn-ghost">Accueil</a></li>
+        <li><a routerLink="/about" routerLinkActive="btn-primary" class="btn btn-ghost">À propos</a></li>
+        <li><a routerLink="/contact" routerLinkActive="btn-primary" class="btn btn-ghost">Contact</a></li>
+        <li><a routerLink="/heroes" routerLinkActive="btn-primary" class="btn btn-ghost">Héros</a></li>
+        <li><a routerLink="/products" routerLinkActive="btn-primary" class="btn btn-ghost">Produits</a></li>
+      </ul>
+    </div>
+
+    <div class="navbar-end">
+      <div class="tooltip tooltip-bottom" data-tip="Mode sombre bientôt disponible">
+        <button class="btn btn-ghost btn-circle">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>

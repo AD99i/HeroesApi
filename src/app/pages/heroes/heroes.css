@@ -1,0 +1,138 @@
+/* Hero card enhanced animations */
+.card {
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+/* Hero image effects */
+.card figure {
+  position: relative;
+  overflow: hidden;
+}
+
+.card figure img {
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover figure img {
+  transform: scale(1.1) rotate(1deg);
+}
+
+/* Power level progress bar */
+.progress {
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.progress::-webkit-progress-bar {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Badge animations */
+.badge {
+  transition: all 0.2s ease;
+}
+
+.card:hover .badge {
+  transform: scale(1.1);
+}
+
+/* Stats mini display */
+.grid .text-center {
+  transition: transform 0.2s ease;
+}
+
+.card:hover .grid .text-center {
+  transform: scale(1.05);
+}
+
+/* Loading animations */
+.skeleton {
+  background: linear-gradient(90deg,
+    hsl(var(--color-base-300)) 25%,
+    hsl(var(--color-base-200)) 50%,
+    hsl(var(--color-base-300)) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Staggered animation for cards */
+.card {
+  animation: card-fade-in 0.6s ease-out forwards;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.15s; }
+.card:nth-child(3) { animation-delay: 0.2s; }
+.card:nth-child(4) { animation-delay: 0.25s; }
+.card:nth-child(5) { animation-delay: 0.3s; }
+.card:nth-child(n+6) { animation-delay: calc(0.35s + (var(--i, 0) * 0.05s)); }
+
+@keyframes card-fade-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hover effects for stats */
+.text-center {
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+
+.card:hover .text-center:nth-child(1) {
+  background-color: hsl(var(--color-error) / 0.1);
+}
+
+.card:hover .text-center:nth-child(2) {
+  background-color: hsl(var(--color-info) / 0.1);
+}
+
+.card:hover .text-center:nth-child(3) {
+  background-color: hsl(var(--color-warning) / 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card {
+    transform: none !important;
+  }
+
+  .card:hover {
+    transform: translateY(-4px) !important;
+  }
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+
+/* Button transition enhancement */
+.btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .btn {
+  transform: scale(1.05);
+}

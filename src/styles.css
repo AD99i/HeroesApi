@@ -1,2 +1,247 @@
-/* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@plugin "daisyui";
+
+:root {
+  --rounded-box: 0.5rem;
+  --rounded-btn: 0.375rem;
+  --rounded-badge: 0.5rem;
+  --animation-btn: 0.25s;
+  --animation-input: 0.2s;
+  --btn-focus-scale: 0.95;
+  --border-btn: 1px;
+  --tab-border: 1px;
+  --tab-radius: 0.5rem;
+}
+
+[data-theme="light"] {
+  --color-primary: 71 85 105;
+  --color-primary-content: 255 255 255;
+  --color-secondary: 148 163 184;
+  --color-secondary-content: 15 23 42;
+  --color-accent: 99 102 241;
+  --color-accent-content: 255 255 255;
+  --color-neutral: 51 65 85;
+  --color-neutral-content: 248 250 252;
+  --color-base-100: 255 255 255;
+  --color-base-200: 248 250 252;
+  --color-base-300: 226 232 240;
+  --color-base-content: 15 23 42;
+  --color-info: 59 130 246;
+  --color-success: 34 197 94;
+  --color-warning: 245 158 11;
+  --color-error: 239 68 68;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  background: hsl(var(--color-base-100));
+  color: hsl(var(--color-base-content));
+}
+
+.container-custom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Utility classes for better text handling */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+
+/* Smooth transitions */
+.transition-all {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--color-base-200));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--color-primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--color-primary) / 0.5);
+}
+
+/* Focus styles */
+.btn:focus,
+.input:focus,
+.textarea:focus,
+.select:focus {
+  outline: 2px solid hsl(var(--color-primary) / 0.5);
+  outline-offset: 2px;
+}
+
+/* Loading animation enhancements */
+@keyframes pulse-subtle {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Card hover effects */
+.card:hover {
+  transition: all 0.3s ease-in-out;
+}
+
+/* Backdrop blur support fallback */
+@supports not (backdrop-filter: blur(12px)) {
+  .backdrop-blur-md {
+    background-color: hsl(var(--color-base-100) / 0.95);
+  }
+}
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Enhanced radial progress styling */
+.radial-progress {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 90deg at 50% 50%,
+    hsl(var(--color-base-300)) 0deg,
+    hsl(var(--color-base-300)) calc(3.6deg * (100 - var(--value))),
+    hsl(var(--color-primary)) calc(3.6deg * (100 - var(--value))),
+    hsl(var(--color-primary)) 360deg
+  );
+}
+
+.radial-progress::before {
+  content: '';
+  position: absolute;
+  inset: calc(var(--thickness, 2px) * 0.5);
+  border-radius: 50%;
+  background: hsl(var(--color-base-100));
+}
+
+.radial-progress > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Enhanced progress bar animations */
+.progress {
+  position: relative;
+  overflow: visible;
+}
+
+.progress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: var(--value, 0%);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: inherit;
+  animation: shimmer 2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Enhanced glass morphism effects */
+.backdrop-blur-md {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.glass-effect {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+
+/* Enhanced hover effects */
+.hover-lift {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+/* Text gradients */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--color-primary)), hsl(var(--color-accent)));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Enhanced loading states */
+.pulse-glow {
+  animation: pulse-glow 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 5px hsl(var(--color-primary) / 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px hsl(var(--color-primary) / 0.8), 0 0 30px hsl(var(--color-primary) / 0.6);
+  }
+}
